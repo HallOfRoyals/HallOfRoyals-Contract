@@ -20,8 +20,8 @@ contract HallOfRoyals is ERC721, Ownable {
     string private _currentBaseURI;
 
     constructor() ERC721("Hall Of Royals", "HOR") {
-        setNotRevealedURI('http://localhost:3000/tokens/wtf.json');
-        setBaseURI("http://localhost:3000/tokens/");
+        setNotRevealedURI('https://gateway.pinata.cloud/ipfs/QmTm7mWLsZvBPtp8FHrtZC51irh6qaUuiZngyzTQNr6mzg/hidden_art/wtf.json');
+        setBaseURI("https://gateway.pinata.cloud/ipfs/QmTm7mWLsZvBPtp8FHrtZC51irh6qaUuiZngyzTQNr6mzg/json/");
     }
 
     function mintableAtOnce() public view returns (uint256) {
