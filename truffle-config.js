@@ -38,6 +38,14 @@ module.exports = {
 
   contracts_build_directory: path.join(__dirname, "abis"),
 
+  plugins: [
+    'truffle-plugin-verify'
+  ],
+
+  api_keys: {
+    etherscan: process.env.ETHERSCAN_API_KEY
+  },
+
   networks: {
     development: {
       host: "127.0.0.1",
@@ -45,7 +53,7 @@ module.exports = {
       network_id: "*" // Match any network id
     },
     ropsten: {
-      provider: () => new HDWalletProvider(mnemonic, `https://ropsten.infura.io/v3/${infuraToken}`, 0),
+      provider: () => new HDWalletProvider(mnemonic, `wss://ropsten.infura.io/ws/v3/${infuraToken}`, 0),
       network_id: 3,       // Ropsten's id
       gas: 5500000,        // Ropsten has a lower block limit than mainnet
       confirmations: 2,    // # of confs to wait between deployments. (default: 0)
@@ -61,7 +69,7 @@ module.exports = {
       skipDryRun: true     // Skip dry run before migrations? (default: false for public nets )
     },
     mainnet: {
-      provider: () => new HDWalletProvider(mnemonic, `https://mainnet.infura.io/v3/${infuraToken}`),
+      provider: () => new HDWalletProvider(mnemonic, `wss://mainnet.infura.io/ws/v3/${infuraToken}`),
       network_id: 1,
       gasPrice: web3.utils.toWei('88', 'gwei'),
       timeoutBlocks: 200,
@@ -89,7 +97,7 @@ module.exports = {
           enabled: true,
           runs: 200
         },
-        evmVersion: "petersburg"
+        evmVersion: "byzantium"
       }
     }
   },

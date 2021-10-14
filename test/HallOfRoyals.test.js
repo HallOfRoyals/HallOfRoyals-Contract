@@ -55,7 +55,7 @@ contract("HallOfRoyals", (accounts) => {
 
     it("has correct tokenURI", async () => {
       let tokenURI = await hallOfRoyals.tokenURI(1);
-      expect(tokenURI).to.equal("https://gateway.pinata.cloud/ipfs/QmTm7mWLsZvBPtp8FHrtZC51irh6qaUuiZngyzTQNr6mzg/hidden_art/wtf.json")
+      expect(tokenURI).to.equal("ipfs://QmNXSQPSXkKcyfz1Hv5UfXdnEce8HbPmvRxX9QiKNgaigF/hidden.json")
     })
 
     it("check total in supply", async () => {
@@ -71,7 +71,7 @@ contract("HallOfRoyals", (accounts) => {
     it("reveal token image", async () => {
       await hallOfRoyals.reveal()
       let tokenURI = await hallOfRoyals.tokenURI(1);
-      expect(tokenURI).to.equal("https://gateway.pinata.cloud/ipfs/QmTm7mWLsZvBPtp8FHrtZC51irh6qaUuiZngyzTQNr6mzg/json/1.json")
+      expect(tokenURI).to.equal("ipfs://QmfQYSR4gTxx7K4ctnfqEXDr3Hkbpd3btqkYrya5APWTvB/1.json")
     })
 
     it('change max mintable value', async () => {
