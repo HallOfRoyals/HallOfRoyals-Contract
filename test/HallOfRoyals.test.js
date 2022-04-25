@@ -1,5 +1,4 @@
-const { assert, expect } = require("chai");
-const { expectRevert } = require('@openzeppelin/test-helpers');
+const { expect } = require("chai");
 
 const HallOfRoyalsToken = artifacts.require("HallOfRoyals");
 
@@ -31,8 +30,6 @@ contract("HallOfRoyals", (accounts) => {
     })
   })
 
-  let price = web3.utils.toBN(web3.utils.toWei('200', 'finney'))
-
   describe("Minting a royal", async () => {
     let ownerBalanceBefore
     let buyerBalanceBefore
@@ -46,21 +43,15 @@ contract("HallOfRoyals", (accounts) => {
     })
 
     let reciept
-    let transaction
 
     it("mints a token", async () => {
-      reciept = await hallOfRoyals.mint(1, { from: accounts[1], value: price })
+      reciept = await hallOfRoyals.mint(1, { from: accounts[1], value: web3.utils.toWei('0.018721227621483') })
       transaction = await web3.eth.getTransaction(reciept.tx);
     })
 
     it("has correct tokenURI", async () => {
       let tokenURI = await hallOfRoyals.tokenURI(1);
       expect(tokenURI).to.equal("ipfs://QmNXSQPSXkKcyfz1Hv5UfXdnEce8HbPmvRxX9QiKNgaigF/hidden.json")
-    })
-
-    it("check total in supply", async () => {
-      let totalNFTInSupply = await hallOfRoyals.totalSupply()
-      expect(totalNFTInSupply.words[0]).to.equal(1)
     })
 
     it("checking ownership to the token", async () => {
@@ -76,14 +67,17 @@ contract("HallOfRoyals", (accounts) => {
 
     it('change max mintable value', async () => {
       await hallOfRoyals.setmaxMintAmount(5);
-      let maxMintable = await hallOfRoyals.mintableAtOnce();
+      let maxMintable = await hallOfRoyals.maxMintAmount();
       expect(maxMintable.toString()).to.equal('5');
     })
+  })
 
-    it('change minting cost', async () => {
-      await hallOfRoyals.setCost(20);
-      let newMintingCost = await hallOfRoyals.mintingCost();
-      expect(newMintingCost.toString()).to.equal('20');
+  describe("Clear contract balance", async () => {
+    it('clear balance', async () => {
+      await hallOfRoyals.mint(1, { from: accounts[1], value: web3.utils.toWei('0.018721227621483') })
+      await hallOfRoyals.clearETH();
+      let balance = await web3.eth.getBalance(hallOfRoyals.address);
+      expect(balance.toString()).to.equal('0');
     })
   })
 })
